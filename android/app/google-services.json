@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "941764532767",
+    "firebase_url": "https://smarthome-6e1fa-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "smarthome-6e1fa",
+    "storage_bucket": "smarthome-6e1fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941764532767:android:cb50b1448fbdb7a0a9132a",
+        "android_client_info": {
+          "package_name": "com.example.test_offlutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnHPwBcYQCVPFy3nI48lhMXIJZBgLiCSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
