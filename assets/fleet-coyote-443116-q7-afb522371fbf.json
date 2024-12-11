@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "fleet-coyote-443116-q7",
+  "private_key_id": "afb522371fbf9c1337abb78e52caab0ec2696954",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDsUZauZlbOCGzv\nPC9OV/ntwm9J4DWtbk66SuJYV2HB3smGpVLAm14DFqjrOSivE2AHLClB3eyPmgX3\nbvNOwbvAenvOELeRBze4xIYi9nrVjI5DAwPlkM77IP+8y+oTKODd4iJqDcza2xyE\nIj3ubL4VgueZcFU6Z6iVVYesSWvow2PunZuBgJcW04fs1RS+6iBNDeolgWlTZ7Kn\ncbyjw79BUvS7ZbaRUg6LxkNjraRAFK5areENo3lV7keYEQLo6fuQPmOpq5tRhNd2\nO3SLSaYSpORN3id+wvMTbyz/9hRlwOShW6qFvUO0vuVhBgoURvt4oqrhMcs1pcY5\n/pGYFLo5AgMBAAECggEADyzkGLnwrBVlbW13ejfzED4SqHNR7xusyZDCfTrLR8hX\nN6LJMB4qCNe9LDHE940udvdyhMzMAqK47F0/GZkeRet3pNF1AEau4NoZ5Qff9nOq\ntQnuB6FncT/6vDR6CRXwbr81R4swUwOMDr4mLPflsvrvhW5twqziagiOiFVErTMz\nT0nqPxhzDepnHfPoQB66K63aCyb1XaVjxDbzNpAzvOVH5oY/YDvpALqKD3pzDr1+\nqXqZgQvLRhzXvS2ltfPunHvRsmNV1TyiRdS5RME+OyfXLL2EQtpCinun2e41xBaG\nr2etIK/Ne8Y2mIs84zcIuEeiJrNamlD09M2D6VRwyQKBgQD8lz5QmoChIVpmn/iB\nNfBLZxzpUC9EoQuNMbSIsmnLUFtSQVtf5+MVnsQZaRmuhRRy/JirINZSyHqL+q0f\n5gkdmS2Wx9Q8RUF2RdSyC+DE01hcKwrotdr6o8nPEXB+4qqn3goXL1dOnwrwTb93\n12nI1RH9Bfve/cvixg98+drDlQKBgQDvgh8dlXoJODSamkPxe/W1PgVWTFVOLQl8\nEw+R9B/P7KW1xX12x+Q8ns9S0xli/6yJab8EP8EeCsihD8GSEmGT8OVL4ZDLvtRd\nmi8IufUICDa0UtaXPQ7wJgfURRQA+rCa/eAQ7YhoI3/N2u1uG6fyHEJlY2g1x+Qm\n7VnSqHwzFQKBgQCre869kDcVrXwfQinHJyRtPKLfLyX4FNGv2Pf0+hNjCboF/QMY\n+GguDGybx8O8vPKmIiFPxOpcp2izUctpZZX4tz7BKAdJp8cKkdwVyISfe9B4Omyc\nkqIJGVtwLinOqvorH06AcQ53/PfDLzV3GhLiWu1sdzyJJord+ZMYSNShhQKBgHei\np6g/YhX43U3cgNO+95zwvfm9Z18FYBd57e0Z5EoYCy4g1+rdLkSZjzXv/F5XF/gL\nuj6FGhHHkS/iju5IADXFvsOIiKs9Rxb6TUQunxbEA49PUaF5/lw2ovKFDtjuYAkL\nh0DtZZWfJdfN44t8hQeK1h+O6B71GiHXrWZsgp2BAoGAHxhXWnm5u/iQrn/BuLfE\ne6ocM1hUEea/YuiP/qFzZr7bmBk4Xc1C1R6caVyulCrMZSzM5djZh/gQsVyDqE0G\nCgxKhIT7QRcY15wIFz61wkOr2MrEHFvmmZldJ+ZQHdxjbKzAmT1riBsjE0sDyNMh\nwhA5h+wiyLX0qTxkE2V6q3Y=\n-----END PRIVATE KEY-----\n",
+  "client_email": "callchatgptproject@fleet-coyote-443116-q7.iam.gserviceaccount.com",
+  "client_id": "111376754670026449047",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/callchatgptproject%40fleet-coyote-443116-q7.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

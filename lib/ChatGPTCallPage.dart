@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:test_offlutter/main.dart';
 
 class ChatGPTCallPage extends StatefulWidget {
   @override
@@ -36,19 +37,24 @@ class _ChatGPTCallPageState extends State<ChatGPTCallPage> with SingleTickerProv
   Future<void> _startListening() async {
     bool available = await _speech.initialize();
     if (available) {
-      _speech.listen(onResult: (result) {
-        setState(() {
-          userQuery = result.recognizedWords;
-        });
-
-        // Simulate sending the query to ChatGPT and getting a response
-        Future.delayed(const Duration(seconds: 2), () {
+      _speech.listen(
+        onResult: (result) {
           setState(() {
-            assistantResponse = "I heard: $userQuery. The home is fine!";
+            userQuery = result.recognizedWords;
+
+            // Check if the result is final
+            if (result.finalResult) {
+              // Simulate sending the query to ChatGPT and getting a response
+              Future.delayed(const Duration(seconds: 3), () {
+                setState(() {
+                  assistantResponse = "I heard: $userQuery. The home is fine!";
+                });
+                _tts.speak(assistantResponse); // Speak out the response
+              });
+            }
           });
-          _tts.speak(assistantResponse); // Speak out the response
-        });
-      });
+        },
+      );
     } else {
       setState(() {
         userQuery = "Speech recognition unavailable.";
@@ -69,8 +75,17 @@ class _ChatGPTCallPageState extends State<ChatGPTCallPage> with SingleTickerProv
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Assistant Call'),
-        backgroundColor: const Color(0xFFFDFFE2),
-        foregroundColor: const Color(0xFF1c231f),
+        backgroundColor: const Color(0xFFFFFFFF),
+        foregroundColor: const Color(0xFF202C33),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SmartHomeControl()),
+            );
+          },
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -79,10 +94,9 @@ class _ChatGPTCallPageState extends State<ChatGPTCallPage> with SingleTickerProv
             child: ScaleTransition(
               scale: _animation,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white70,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF202C33),
                   shape: BoxShape.circle,
-
                 ),
                 padding: const EdgeInsets.all(70),
               ),
@@ -103,13 +117,17 @@ class _ChatGPTCallPageState extends State<ChatGPTCallPage> with SingleTickerProv
           const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context); // End the call
+              // End the call and go back to the Home Screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const SmartHomeControl()),
+              );
             },
-            child: const Text("End Call"),
             style: ElevatedButton.styleFrom(
-              foregroundColor: const Color(0xFF1c231f),
-              backgroundColor: const Color(0xFFFDFFE2),
+              foregroundColor: const Color(0xFFFFFFFF),
+              backgroundColor: const Color(0xFF202C33),
             ),
+            child: const Text("End Call"),
           ),
         ],
       ),

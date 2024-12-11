@@ -40,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign In'),
-        backgroundColor: const Color(0xFFFDFFE2),
+        backgroundColor: const Color(0xFFFFFFFF),
       ),
       body: Center(
         child: Padding(
@@ -61,8 +61,8 @@ class _SignInScreenState extends State<SignInScreen> {
               ElevatedButton(
                 onPressed: _signIn,
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: const Color(0xFF1c231f),
-                  backgroundColor: const Color(0xFFFDFFE2),
+                  foregroundColor: const Color(0xFF202C33),
+                  backgroundColor: const Color(0xFFFFFFFF),
                 ),
                 child: const Text('Log In'),
               ),
@@ -82,7 +82,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     errorMessage,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(
+                      color: Color(0xFFA02334),
+                      fontWeight: FontWeight.bold, // Make the text bold
+                      fontSize: 16, // Optional: Adjust font size if needed
+                    ),
                   ),
                 ),
             ],
@@ -131,29 +135,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
-        backgroundColor: const Color(0xFFFDFFE2),
+        backgroundColor: const Color(0xFF202C33),
       ),
+
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Email TextField
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                style: const TextStyle(
+                  color: Color(0xFF202C33), // Input text color
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'example@example.com', // Placeholder text
+                  hintStyle: TextStyle(color: Color(0xFF202C33)), // Hint text color
+                  labelStyle: TextStyle(color: Color(0xFF202C33)), // Label text color
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF202C33)), // Border color when enabled
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF202C33)), // Border color when focused
+                  ),
+                ),
+                cursorColor: const Color(0xFF202C33), // Cursor color
               ),
+              const SizedBox(height: 20),
+              // Password TextField
               TextField(
                 controller: _passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(labelText: 'Password'),
+                style: const TextStyle(
+                  color: Color(0xFF202C33), // Input text color
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Password', // Placeholder text
+                  hintStyle: TextStyle(color: Color(0xFF202C33)), // Hint text color
+                  labelStyle: TextStyle(color: Color(0xFF202C33)), // Label text color
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF202C33)), // Border color when enabled
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF202C33)), // Border color when focused
+                  ),
+                ),
+                cursorColor: const Color(0xFF202C33), // Cursor color
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _signUp,
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: const Color(0xFF1c231f),
-                  backgroundColor: const Color(0xFFFDFFE2),
+                  foregroundColor: const Color(0xFFFFFFFF),
+                  backgroundColor: const Color(0xFF202C33),
                 ),
                 child: const Text('Sign Up'),
               ),

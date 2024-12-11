@@ -34,8 +34,8 @@ class _AIChatState extends State<AIChat> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Home AI Assistant"),
-        backgroundColor: const Color(0xFFFDFFE2),
-        foregroundColor: const Color(0xFF1c231f),
+        backgroundColor: const Color(0xFF202C33),
+        foregroundColor: const Color(0xFFFFFFFF),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,18 +51,29 @@ class _AIChatState extends State<AIChat> {
             ),
             TextField(
               controller: _controller,
+              style: TextStyle(color: Color(0xFF202C33)), // Text color
               decoration: const InputDecoration(
-                labelText: "Ask Your Home Assistance",
-                border: OutlineInputBorder(),
+                labelText: "Ask Home Assistance",
+                labelStyle: TextStyle(color: Color(0xFF202C33)), // Label text color
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF202C33)), // Default border color
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF202C33)), // Border color when focused
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF202C33)), // Border color when enabled
+                ),
               ),
+              cursorColor: Color(0xFF202C33), // Cursor color
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _sendMessage,
               child: const Text("Send"),
               style: ElevatedButton.styleFrom(
-                foregroundColor: const Color(0xFF1c231f),
-                backgroundColor: const Color(0xFFFDFFE2),
+                foregroundColor: const Color(0xFFFFFFFF),
+                backgroundColor: const Color(0xFF202C33),
               ),
             ),
           ],
