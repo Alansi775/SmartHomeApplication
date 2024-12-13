@@ -5,6 +5,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:test_offlutter/ChatGPTCallPage.dart';
 import 'speech_to_text.dart'; // Import the updated speech to text file
 import 'sign_in_screen.dart';
+import 'messages/gasleaking.dart'; // Adjust the path as necessary
 import 'ai.dart';
 
 void main() async {
@@ -51,17 +52,20 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref('devices');
   final FlutterTts _flutterTts = FlutterTts(); // Initialize text-to-speech
   bool _isListening = false; // Define the listening state
+  late GasLeakListener _gasLeakListener;
+
 
   @override
   void initState() {
     super.initState();
     _loadDeviceStatus();
+    _gasLeakListener = GasLeakListener(_dbRef, _flutterTts, context); // Pass the database reference and FlutterTts instance
   }
 
   // Load device status from Firebase
   void _loadDeviceStatus() {
-    _dbRef.once().then((snapshot) {
-      final data = snapshot.snapshot.value;
+    _dbRef.onValue.listen((event) {
+      final data = event.snapshot.value;
       if (data != null && data is Map) {
         Map<String, dynamic> devices = Map<String, dynamic>.from(data);
         setState(() {
@@ -89,18 +93,13 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
     });
   }
 
-  void controlDevice(String command) {
-    String device;
-    int newValue;
+  void controlDevice(String device, String command) {
 
-    if (command.endsWith('On')) {
-      device = command.split(' ')[0]; // Get device name
-      newValue = 1; // Turn on
-    } else if (command.endsWith('Off')) {
-      device = command.split(' ')[0]; // Get device name
-      newValue = 0; // Turn off
+    int newValue = (command == 'On') ? 1 : 0;
+    if (device == 'Light') {
+      newValue = deviceStatus[device] == "Turn Off" ? 0 : 1;
     } else {
-      return; // Invalid command
+      newValue = deviceStatus[device] == "Open" ? 0 : 1;
     }
 
     _updateDeviceStatus(device, newValue);
@@ -124,45 +123,45 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
         normalizedCommand.contains("please open the door") ||
         normalizedCommand.contains("can you open the door") ||
         normalizedCommand.contains("open the door please")) {
-      controlDevice('Door On');
+      controlDevice('Door', 'On');
     } else if (normalizedCommand.contains("close the door") ||
         normalizedCommand.contains("please close the door") ||
         normalizedCommand.contains("can you close the door") ||
         normalizedCommand.contains("shut the door") ||
         normalizedCommand.contains("close the door please")) {
-      controlDevice('Door Off');
+      controlDevice('Door', 'Off');
     } else if (normalizedCommand.contains("turn on the light") ||
         normalizedCommand.contains("light on") ||
         normalizedCommand.contains("please turn on the light") ||
         normalizedCommand.contains("can you turn on the light") ||
         normalizedCommand.contains("switch on the light")) {
-      controlDevice('Light On');
+      controlDevice('Light', 'On');
     } else if (normalizedCommand.contains("turn off the light") ||
         normalizedCommand.contains("light off") ||
         normalizedCommand.contains("please turn off the light") ||
         normalizedCommand.contains("can you turn off the light") ||
         normalizedCommand.contains("switch off the light")) {
-      controlDevice('Light Off');
+      controlDevice('Light', 'Off');
     } else if (normalizedCommand.contains("open the curtain") ||
         normalizedCommand.contains("pull the curtain") ||
         normalizedCommand.contains("please open the curtain") ||
         normalizedCommand.contains("can you open the curtain")) {
-      controlDevice('Curtain On');
+      controlDevice('Curtain', 'On');
     } else if (normalizedCommand.contains("close the curtain") ||
         normalizedCommand.contains("shut the curtain") ||
         normalizedCommand.contains("please close the curtain") ||
         normalizedCommand.contains("can you close the curtain")) {
-      controlDevice('Curtain Off');
+      controlDevice('Curtain', 'Off');
     } else if (normalizedCommand.contains("open the water") ||
         normalizedCommand.contains("turn on the water") ||
         normalizedCommand.contains("please open the water") ||
         normalizedCommand.contains("can you open the water")) {
-      controlDevice('Water On');
+      controlDevice('Water', 'On');
     } else if (normalizedCommand.contains("close the water") ||
         normalizedCommand.contains("turn off the water") ||
         normalizedCommand.contains("please close the water") ||
         normalizedCommand.contains("can you close the water")) {
-      controlDevice('Water Off');
+      controlDevice('Water', 'Off');
     } else {
       setState(() {
         statusMessage = 'Command not recognized. Please try again.';
@@ -270,16 +269,20 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
   }
 
   Widget _buildDeviceButton(String label, String device) {
-    String buttonText = deviceStatus[device]!;
+    String buttonText;
 
     if (device == 'Light') {
-      buttonText = buttonText == 'Turn On' ? 'Turn On Light' : 'Turn Off Light';
+      buttonText = deviceStatus[device] == 'Turn On' ? 'Turn On Light' : 'Turn Off Light';
     } else {
-      buttonText = buttonText == 'Open' ? 'Close $label' : 'Open $label';
+      buttonText = deviceStatus[device] == 'Open' ? 'Close $device' : 'Open $device';
     }
 
     return ElevatedButton(
-      onPressed: () => controlDevice(device),
+      onPressed: () {
+        // Toggle device status when the button is pressed
+        String command = deviceStatus[device] == 'Turn On' || deviceStatus[device] == 'Open' ? 'Off' : 'On';
+        controlDevice(device, command);
+      },
       style: ElevatedButton.styleFrom(
         foregroundColor: const Color(0xFFFFFFFF),
         backgroundColor: const Color(0xFF202C33),
@@ -288,6 +291,8 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
     );
   }
 
+
+// icons display dynamically
   Widget _buildDeviceStatusIcons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -308,9 +313,9 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
           Image.asset('assets/icons/smart-curtain.png', width: 70, height: 59),
         const SizedBox(width: 15),
         if (deviceStatus['Water'] == "Open")
-          Image.asset('assets/icons/wateroff.png', width: 70, height: 55),
+          Image.asset('assets/icons/wateroff.png', width: 70, height: 60),
         if (deviceStatus['Water'] == "Closed")
-          Image.asset('assets/icons/water.png', width: 70, height: 54),
+          Image.asset('assets/icons/water.png', width: 70, height: 59),
       ],
     );
   }
