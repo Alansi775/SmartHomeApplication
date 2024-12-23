@@ -46,6 +46,12 @@ dependencies:
   speech_to_text: ^7.0.0
   googleapis: ^13.2.0
   googleapis_auth: ^1.6.0
+  webview_flutter: ^4.10.0
+  web_socket_channel: ^3.0.1
+  gesture_zoom_box: ^0.0.4
+  fluttertoast: ^8.2.10
+  intl: ^0.20.1
+  connectivity_plus: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +85,7 @@ flutter:
     - assets/icons/water.png
     - assets/icons/wateroff.png
     - assets/fleet-coyote-443116-q7-afb522371fbf.json
+    - assets/icons/home.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -10,9 +10,27 @@ class SpeechToTextControl extends StatefulWidget {
   _SpeechToTextControlState createState() => _SpeechToTextControlState();
 }
 
-class _SpeechToTextControlState extends State<SpeechToTextControl> {
-  stt.SpeechToText _speech = stt.SpeechToText();
+class _SpeechToTextControlState extends State<SpeechToTextControl> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  late stt.SpeechToText _speech;
   bool _isListening = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3), // Slower animation duration
+      vsync: this,
+    )..repeat(reverse: true); // Repeat the animation
+
+    _animation = Tween<double>(begin: 0.95, end: 1.05).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut, // Smoother curve
+    ));
+
+    _speech = stt.SpeechToText();
+  }
 
   void _startListening() async {
     bool available = await _speech.initialize();
@@ -20,10 +38,10 @@ class _SpeechToTextControlState extends State<SpeechToTextControl> {
       setState(() {
         _isListening = true;
       });
+      _controller.repeat(reverse: true); // Start pulsing animation
       await _speech.listen(onResult: (result) {
         if (result.hasConfidenceRating && result.confidence > 0.5) {
           widget.onCommandRecognized(result.recognizedWords);
-          // After processing the command, restart listening
           _restartListening();
         }
       });
@@ -39,13 +57,13 @@ class _SpeechToTextControlState extends State<SpeechToTextControl> {
     await _speech.listen(onResult: (result) {
       if (result.hasConfidenceRating && result.confidence > 0.5) {
         widget.onCommandRecognized(result.recognizedWords);
-        // Continue listening
         _restartListening();
       }
     });
   }
 
   void _stopListening() async {
+    _controller.stop(); // Stop the pulsing animation
     setState(() {
       _isListening = false;
     });
@@ -53,33 +71,50 @@ class _SpeechToTextControlState extends State<SpeechToTextControl> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    _speech.stop();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (!_isListening) // Show Start Listening button
-          ElevatedButton(
-            onPressed: () {
-              _startListening();
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: const Color(0xFFFFFFFF),
-              backgroundColor: const Color(0xFF202C33),
+        Center(
+          child: ScaleTransition(
+            scale: _animation,
+            child: GestureDetector(
+              onTap: () {
+                if (!_isListening) {
+                  _startListening();
+                } else {
+                  _stopListening();
+                }
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xFF202C33),
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(15), // Circle size
+                child: _isListening
+                    ? const Icon(
+                  Icons.square_rounded, // Use a different icon for the non-listening state
+                  color: Color(0xFFFFFFFF),
+                  size: 35, // Icon size
+                )
+                    : Image.asset(
+                  'assets/icons/home.png', // Your custom icon
+                  color: Colors.white, // Change color if needed
+                  width: 35, // Icon width
+                  height: 35, // Icon height
+                ),
+              ),
             ),
-            child: const Text("Start Listening"),
           ),
-        if (_isListening) // Show Stop Listening button
-          ElevatedButton(
-            onPressed: () {
-              _stopListening();
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: const Color(0xFFFFFFFF),
-              backgroundColor: const Color(0xFF202C33),
-              padding: const EdgeInsets.all(8.0), // Smaller button
-            ),
-            child: const Icon(Icons.stop), // Stop icon
-          ),
+        ),
       ],
     );
   }

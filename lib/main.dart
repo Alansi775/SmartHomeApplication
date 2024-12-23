@@ -1,16 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:test_offlutter/ChatGPTCallPage.dart';
 import 'speech_to_text.dart'; // Import the updated speech to text file
 import 'sign_in_screen.dart';
-import 'messages/gasleaking.dart'; // Adjust the path as necessary
+// Adjust the path as necessary
 import 'ai.dart';
+import 'camera.dart'; // Add this line
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Lock the orientation to portrait mode
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
@@ -50,16 +57,16 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
   };
 
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref('devices');
-  final FlutterTts _flutterTts = FlutterTts(); // Initialize text-to-speech
+// Initialize text-to-speech
   bool _isListening = false; // Define the listening state
-  late GasLeakListener _gasLeakListener;
+
 
 
   @override
   void initState() {
     super.initState();
     _loadDeviceStatus();
-    _gasLeakListener = GasLeakListener(_dbRef, _flutterTts, context); // Pass the database reference and FlutterTts instance
+// Pass the database reference and FlutterTts instance
   }
 
   // Load device status from Firebase
@@ -104,7 +111,6 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
 
     _updateDeviceStatus(device, newValue);
   }
-
 
   void processVoiceCommand(String command) {
     setState(() {
@@ -183,11 +189,6 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
   }
 
   // Stop listening for commands
-  void _stopListening() {
-    setState(() {
-      _isListening = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +221,9 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
           ],
         ),
       ),
+
+
+
       drawer: Drawer(
         backgroundColor: const Color(0xFF202C33),
         child: ListView(
@@ -229,6 +233,20 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
                 "Smart Home",
                 style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
               ),
+            ),
+            ListTile(
+              title: const Text(
+                "Open Camera Stream",
+                style: TextStyle(color: Color(0xFFFFFFFF)),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CameraPage(cameraUrl: 'http://192.168.3.26'),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: const Text(
@@ -245,6 +263,10 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
           ],
         ),
       ),
+
+
+
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color(0xFF202C33),
         selectedItemColor: const Color(0xFFB7B597),
@@ -267,6 +289,7 @@ class _SmartHomeControlState extends State<SmartHomeControl> {
       ),
     );
   }
+
 
   Widget _buildDeviceButton(String label, String device) {
     String buttonText;
