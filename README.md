@@ -7,6 +7,7 @@ The Smart Home Control application is a Flutter based app designed for managing 
 
  **Project Prototype Viedo**
  https://www.youtube.com/watch?v=SxPO22OO0eE
+
 **Key Features**
 
 1.	**Voice Control**:
