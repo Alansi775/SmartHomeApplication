@@ -5,7 +5,7 @@ The Smart Home Control application is a Flutter based app designed for managing 
 **Application Images**
  https://slender-forsythia-e75.notion.site/SmartHome-Project-16f883fb9e358002b09de27e56b36266
 
- **Project Prototype Viedo**
+ **Project Prototype Demonstration**
  https://www.youtube.com/watch?v=SxPO22OO0eE
 
 **Key Features**
