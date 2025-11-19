@@ -2,7 +2,7 @@
 
 The Smart Home Control application is a Flutter based app designed for managing and controlling smart home devices via a voice controlled interface and manual interactions. The app integrates Cloud For Realtime Database for real time device state updates and uses voice commands to provide hands free control. The app is designed with a dark mode and light mode theme switcher dynamically, making it visually adaptable to user preferences.
 
-**Application Images**
+**Application ScreenShots**
  https://slender-forsythia-e75.notion.site/SmartHome-Project-16f883fb9e358002b09de27e56b36266
 
  **Project Prototype Demonstration**
